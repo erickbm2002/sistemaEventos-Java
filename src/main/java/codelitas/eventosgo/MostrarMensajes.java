@@ -19,7 +19,18 @@ public class MostrarMensajes {
     }
 
     public int mostrarJOptioneInputOpciones(String titulo, String[] lista, int indexLista) {
-        return JOptionPane.showOptionDialog(null,"Seleccione una opción",titulo,JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE,null, lista, lista[indexLista]);
+        return JOptionPane.showOptionDialog(null, "Seleccione una opción", titulo, JOptionPane.DEFAULT_OPTION,
+                JOptionPane.INFORMATION_MESSAGE, null, lista, lista[indexLista]);
+    }
+    
+    public StringBuilder StringBuilder() {
+        StringBuilder texto = new StringBuilder();
+        return texto;
+    }
+
+    public StringBuilder eliminarStringBuffer(StringBuilder texto) {
+        texto.delete(0, texto.length());
+        return texto;
     }
 
 }

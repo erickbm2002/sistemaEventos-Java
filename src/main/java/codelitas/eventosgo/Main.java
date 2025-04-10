@@ -13,7 +13,7 @@ public class Main {
     Usuario usuario = new Usuario();
     
     mensajes.mostrarJOptioneMessage("Bienvenido al Sistema\nDerechos Reservados por CODELITAS");
-    menuSistema.mostrarMenuLogin(menuSistema.mostrarMenuPrincipal());
+    menuSistema.mostrarMenuLogin();
   }
 
 }

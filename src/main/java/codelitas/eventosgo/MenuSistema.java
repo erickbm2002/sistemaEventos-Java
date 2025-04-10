@@ -9,8 +9,7 @@ public class MenuSistema {
         ListasSistemaEvento listas = new ListasSistemaEvento();
         ValidacionUsuario validacionUsuario = new ValidacionUsuario(listas, mensajes);
         MenuSistema menu = new MenuSistema(mensajes, listas, validacionUsuario);
-        menu.opcionSeleccionada = menu.mostrarMenuPrincipal();
-        menu.mostrarMenuLogin(menu.opcionSeleccionada);
+        menu.mostrarMenuLogin();
 
     }
 
@@ -22,7 +21,6 @@ public class MenuSistema {
     private String[] opcionesMenuAdmin = { "Crear Evento", "Crear Administrador", "Mostar Reportes",
             "Gestionar Eventos",
             "Gestionar Usuarios" };
-    int opcionSeleccionada;
     //Recibimos una instancia de la clase MostrarMensajes
     private MostrarMensajes mensajes;
     private ListasSistemaEvento listas;
@@ -37,32 +35,33 @@ public class MenuSistema {
 
     // Se muestra el menú principal
     public int mostrarMenuPrincipal() {
-        do {
-            return this.mensajes.mostrarJOptioneInputOpciones("Login", opcionesMenu, 0);
-        } while (this.opcionSeleccionada < 0);
-
+        return this.mensajes.mostrarJOptioneInputOpciones("Login", opcionesMenu, 0);
     }
 
     //Se muestra el menú del login
-    public void mostrarMenuLogin(int opcionSeleccionada) {
+    public void mostrarMenuLogin() {
+        int opcionSeleccionada;
+        do {
+            opcionSeleccionada = this.mostrarMenuPrincipal();
+            switch (opcionSeleccionada) {
+                case 0:
+                    this.mensajes.mostrarJOptioneMessage("Ha ingresado a Iniciar Sesion");
+                    break;
 
-        switch (opcionSeleccionada) {
-            case 0:
-                this.mensajes.mostrarJOptioneMessage("Ha ingresado a Iniciar Sesion");
-                break;
+                case 1:
+                    this.mensajes.mostrarJOptioneMessage("Ha ingresado a Registrarse");
+                    this.registrarUsuario();
+                    break;
 
-            case 1:
-                this.mensajes.mostrarJOptioneMessage("Ha ingresado a Registra");
-                this.registrarUsuario();
+                case -1:
+                    this.mensajes.mostrarJOptioneMessage("Saliendo del Sistema");
+                    break;
 
-            case -1:
-                this.mensajes.mostrarJOptioneMessage("Saliendo del Sistema");
+                default:
+                    break;
+            }
+        } while (opcionSeleccionada != -1);
 
-                break;
-
-            default:
-                break;
-        }
     }
 
     //Se muestra las entradas de texto para crear usuarios
@@ -76,16 +75,39 @@ public class MenuSistema {
             Cliente cliente = new Cliente(nombreUsuario, identificacionUsuario, correoUsuario,
                     GenerarID.generarID("USR"));
             listas.agregarClienteLista(cliente);
+            StringBuilder texto = this.mostrarDatosUsuarioCreado(cliente);
+            this.mensajes.mostrarJOptioneMessage(texto.toString());
+            this.mensajes.eliminarMensaje(texto);
+
+
         } else {
             mensajes.mostrarJOptioneMessage("Regresando al menú anterior");
         }
 
     }
 
-    //Getter y setter
-    public int opcionSeleccionada() {
-        return this.opcionSeleccionada;
+    //Se genera un metodo para imprimir la informacion la informaicon del cliente mostrado
+
+    public StringBuilder mostrarDatosUsuarioCreado(Cliente cliente) {
+        StringBuilder texto = this.mensajes.StringBuilder();
+        texto.append("Usuario creado exitosamente");
+        texto.append("\n");
+        texto.append("Nombre:").append(cliente.getNombre());
+        texto.append("\n");
+        texto.append("Identificación:").append(cliente.getIdentificacion());
+        texto.append("\n");
+        texto.append("ID Usuario:").append(cliente.getIdUsuario());
+        texto.append("\n");
+        texto.append("Nota:El ID-USUARIO es necesario para el inicio de Sesion");
+        return texto;
     }
+
+
+
 }
+
+
+ 
+    
 
 
