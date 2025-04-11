@@ -1,5 +1,4 @@
 package codelitas.eventosgo;
-import javax.swing.JOptionPane;
 
 //Clae que va almacenar todo los menus del sistema
 public class MenuSistema {
@@ -8,7 +7,8 @@ public class MenuSistema {
         MostrarMensajes mensajes = new MostrarMensajes();
         ListasSistemaEvento listas = new ListasSistemaEvento();
         ValidacionUsuario validacionUsuario = new ValidacionUsuario(listas, mensajes);
-        MenuSistema menu = new MenuSistema(mensajes, listas, validacionUsuario);
+        ControlCreaciones controlCreaciones = new ControlCreaciones();
+        MenuSistema menu = new MenuSistema(mensajes, listas, validacionUsuario, controlCreaciones);
         menu.mostrarMenuLogin();
 
     }
@@ -25,12 +25,14 @@ public class MenuSistema {
     private MostrarMensajes mensajes;
     private ListasSistemaEvento listas;
     private ValidacionUsuario validacionUsuario;
+    private ControlCreaciones controlCreaciones;
 
     //Constructor
-    public MenuSistema(MostrarMensajes pmensajes, ListasSistemaEvento pListas, ValidacionUsuario pValidacionUsuario) {
+    public MenuSistema(MostrarMensajes pmensajes, ListasSistemaEvento pListas, ValidacionUsuario pValidacionUsuario, ControlCreaciones pControlCreaciones) {
         this.mensajes = pmensajes;
         this.listas = pListas;
         this.validacionUsuario = pValidacionUsuario;
+        this.controlCreaciones = pControlCreaciones;
     }
 
     // Se muestra el menú principal
@@ -66,23 +68,34 @@ public class MenuSistema {
 
     //Se muestra las entradas de texto para crear usuarios
     public void registrarUsuario() {
-
-        String identificacionUsuario = mensajes.mostrarJOptioneInput("Ingrese la identificación");
+        if(this.validacionUsuario.validarCantidadUsuarios()) {
+            String identificacionUsuario = mensajes.mostrarJOptioneInput("Ingrese la identificación");
         Boolean usuarioExiste = validacionUsuario.validarUsuarioExistente(identificacionUsuario);
         if (!usuarioExiste) {
             String nombreUsuario = mensajes.mostrarJOptioneInput("Ingrese su nombre");
             String correoUsuario = mensajes.mostrarJOptioneInput("Ingrese su correo");
             Cliente cliente = new Cliente(nombreUsuario, identificacionUsuario, correoUsuario,
                     GenerarID.generarID("USR"));
-            listas.agregarClienteLista(cliente);
+            this.listas.agregarClienteLista(cliente);
+            this.controlCreaciones.setControlUsuarios();
             StringBuilder texto = this.mostrarDatosUsuarioCreado(cliente);
             this.mensajes.mostrarJOptioneMessage(texto.toString());
             this.mensajes.eliminarMensaje(texto);
+
+            //Recordar eliminar esto
+            System.out.println(this.controlCreaciones.getControlUsuarios());
 
 
         } else {
             mensajes.mostrarJOptioneMessage("Regresando al menú anterior");
         }
+        }
+
+        
+
+    }
+
+    public void IniciarSesion() {
 
     }
 
