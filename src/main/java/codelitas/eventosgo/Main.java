@@ -6,8 +6,9 @@ public class Main {
     
     MostrarMensajes mensajes = new MostrarMensajes();
     ListasSistemaEvento lista = new ListasSistemaEvento();
-    ValidacionUsuario validacionUsuario = new ValidacionUsuario(lista, mensajes);
-    MenuSistema menuSistema = new MenuSistema(mensajes, lista, validacionUsuario);
+    ControlCreaciones controlCreaciones = new ControlCreaciones();
+    ValidacionUsuario validacionUsuario = new ValidacionUsuario(lista, mensajes, controlCreaciones);
+    MenuSistema menuSistema = new MenuSistema(mensajes, lista, validacionUsuario, controlCreaciones);
     
 
     Usuario usuario = new Usuario();

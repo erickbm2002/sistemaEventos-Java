@@ -7,11 +7,12 @@ class ValidacionUsuario {
     public static void main(String[] args) {
         MostrarMensajes mensajes = new MostrarMensajes();
         ListasSistemaEvento lista = new ListasSistemaEvento();
-        ValidacionUsuario validacionUsuario = new ValidacionUsuario(lista, mensajes);
-        Cliente cliente1 = new Cliente(null, "118580448", null, null);
-        lista.agregarClienteLista(cliente1);
-        System.out.println(validacionUsuario.validarUsuarioExistente("11454"));
+        ControlCreaciones controlCreaciones = new ControlCreaciones();
+        ValidacionUsuario validacionUsuario = new ValidacionUsuario(lista, mensajes, controlCreaciones);
+        System.out.println(validacionUsuario.validarCantidadUsuarios());
     }
+
+    
 
     //Atributos
     private ListasSistemaEvento lista;
@@ -21,9 +22,10 @@ class ValidacionUsuario {
     private int eventosMaximos = 3;
 
     //Constructor
-    public ValidacionUsuario(ListasSistemaEvento pLista, MostrarMensajes pMensajes) {
+    public ValidacionUsuario(ListasSistemaEvento pLista, MostrarMensajes pMensajes, ControlCreaciones pControlCreaciones) {
         this.lista = pLista;
         this.mensajes = pMensajes;
+        this.controlCreaciones = pControlCreaciones;
 
     }
 
@@ -48,6 +50,10 @@ class ValidacionUsuario {
             return false;
         }
 
+    }
+
+    public void validarInicioSesion() {
+        
     }
 
     

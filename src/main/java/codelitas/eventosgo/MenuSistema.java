@@ -6,8 +6,8 @@ public class MenuSistema {
     public static void main(String[] args) {
         MostrarMensajes mensajes = new MostrarMensajes();
         ListasSistemaEvento listas = new ListasSistemaEvento();
-        ValidacionUsuario validacionUsuario = new ValidacionUsuario(listas, mensajes);
         ControlCreaciones controlCreaciones = new ControlCreaciones();
+        ValidacionUsuario validacionUsuario = new ValidacionUsuario(listas, mensajes, controlCreaciones);
         MenuSistema menu = new MenuSistema(mensajes, listas, validacionUsuario, controlCreaciones);
         menu.mostrarMenuLogin();
 

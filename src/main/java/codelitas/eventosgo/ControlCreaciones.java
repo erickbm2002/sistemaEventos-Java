@@ -5,9 +5,18 @@ public class ControlCreaciones {
     private int controlEventos = 0;
     private int controlEntradas = 0;
 
+    //CONSTRUCTORES
+    //Metodo vacio
+    public ControlCreaciones() {
 
-    
+    }
 
+    public ControlCreaciones(int entradasMaximas) {
+        this.controlEntradas = entradasMaximas;
+    }
+
+
+    //GETTER Y SETTER
     public int getControlUsuarios() {
         return controlUsuarios;
     }
