@@ -81,11 +81,7 @@ public class MenuSistema {
             StringBuilder texto = this.mostrarDatosUsuarioCreado(cliente);
             this.mensajes.mostrarJOptioneMessage(texto.toString());
             this.mensajes.eliminarMensaje(texto);
-
-            //Recordar eliminar esto
-            System.out.println(this.controlCreaciones.getControlUsuarios());
-
-
+ 
         } else {
             mensajes.mostrarJOptioneMessage("Regresando al menú anterior");
         }
