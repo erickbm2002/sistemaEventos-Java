@@ -10,6 +10,8 @@ class ValidacionUsuario {
         ControlCreaciones controlCreaciones = new ControlCreaciones();
         ValidacionUsuario validacionUsuario = new ValidacionUsuario(lista, mensajes, controlCreaciones);
         System.out.println(validacionUsuario.validarCantidadUsuarios());
+        
+        validacionUsuario.validarInicioSesion("118580448", "USR-001");
     }
 
     
@@ -52,8 +54,16 @@ class ValidacionUsuario {
 
     }
 
-    public void validarInicioSesion() {
-        
+    public void validarInicioSesion(String identificacionIngresada, String idUsuarioIngresada) {
+        ArrayList<Usuario> listaUnificada = this.lista.devolverListasUsuariosUnificada();
+        for (int i  = 0; i < listaUnificada.size(); i++) {
+            Usuario usuario = listaUnificada.get(i);
+            if (usuario.getIdentificacion().equals(identificacionIngresada) && usuario.getIdUsuario().equals(idUsuarioIngresada)) {
+                System.out.println("Acceso consecdido");
+            } else {
+                System.out.println("Acceso denego");
+            }
+        }
     }
 
     

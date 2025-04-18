@@ -7,10 +7,11 @@ import java.util.ArrayList;
 public class ListasSistemaEvento {
 public static void main(String[] args) {
     ListasSistemaEvento listas = new ListasSistemaEvento();
+    ValidacionUsuario validacionUsuario = new ValidacionUsuario();
     Administrador admin = new Administrador("Erick", "118580448", "dadadadada", GenerarID.generarID("USR"));
-    Administrador admin1 = new Administrador("Erick", "118580448", "dadadadada", GenerarID.generarID("USR"));
-    Cliente cliente1 = new Cliente("Erick", "118580448", "dadadadada", GenerarID.generarID("USR"));
-    Cliente cliente2Cliente = new Cliente("Erick", "118580448", "dadadadada", GenerarID.generarID("USR"));
+    Administrador admin1 = new Administrador("Jorge", "118580448", "dadadadada", GenerarID.generarID("USR"));
+    Cliente cliente1 = new Cliente("Ruth", "118580448", "dadadadada", GenerarID.generarID("USR"));
+    Cliente cliente2Cliente = new Cliente("Mami", "118580448", "dadadadada", GenerarID.generarID("USR"));
     listas.agregarAdministradorLista(admin1);
     listas.agregarAdministradorLista(admin);
     listas.agregarClienteLista(cliente2Cliente);
@@ -19,6 +20,12 @@ public static void main(String[] args) {
     ArrayList<Usuario> listaUnificada = new ArrayList<>();
     listaUnificada = listas.devolverListasUsuariosUnificada();
     System.out.println(listaUnificada.size());;
+    for (int i = 0; i < listaUnificada.size();i++ ) {
+        Usuario elemento = listaUnificada.get(i);
+        System.out.println(elemento.getNombre());;
+        System.out.println("--------------------");
+    }
+
 }
 
     //Atributops
@@ -32,7 +39,7 @@ public static void main(String[] args) {
         listaAdministradores = new ArrayList<>();
         listaEventos = new ArrayList<>();
     }
-
+    
     //Metodos
     //Agrega un  usuario cliente a lista
     public void agregarClienteLista(Cliente usuario) {
