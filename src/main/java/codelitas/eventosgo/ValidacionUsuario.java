@@ -9,35 +9,36 @@ class ValidacionUsuario {
         ListasSistemaEvento lista = new ListasSistemaEvento();
         ControlCreaciones controlCreaciones = new ControlCreaciones();
         ValidacionUsuario validacionUsuario = new ValidacionUsuario(lista, mensajes, controlCreaciones);
-        System.out.println(validacionUsuario.validarCantidadUsuarios());
-        
-        validacionUsuario.validarInicioSesion("118580448", "USR-001");
+
+        Cliente cliente = new Cliente(null, "118580448", null, GenerarID.generarID("USR"));
+        lista.agregarClienteLista(cliente);
+        System.out.println(validacionUsuario.validarInicioSesion("118580448", "USR-001"));
+
     }
 
-    
-
-    //Atributos
+    // Atributos
     private ListasSistemaEvento lista;
     private MostrarMensajes mensajes;
     private ControlCreaciones controlCreaciones;
     private int usuariosMaximos = 3;
     private int eventosMaximos = 3;
 
-    //Constructor
-    public ValidacionUsuario(ListasSistemaEvento pLista, MostrarMensajes pMensajes, ControlCreaciones pControlCreaciones) {
+    // Constructor
+    public ValidacionUsuario(ListasSistemaEvento pLista, MostrarMensajes pMensajes,
+            ControlCreaciones pControlCreaciones) {
         this.lista = pLista;
         this.mensajes = pMensajes;
         this.controlCreaciones = pControlCreaciones;
 
     }
 
-
-    //METODOS
-    //Validamos que no se haya superado el limite maximo de usuarios en el sistema.
+    // METODOS
+    // Validamos que no se haya superado el limite maximo de usuarios en el sistema.
     public boolean validarCantidadUsuarios() {
         int cantidadUsuarios = this.controlCreaciones.getControlUsuarios();
-        if(cantidadUsuarios >= this.usuariosMaximos) {
-            this.mensajes.mostrarJOptioneMessage("Se ha alcanzado el limite maximo de usuarios activos permitidos en el sistema");
+        if (cantidadUsuarios >= this.usuariosMaximos) {
+            this.mensajes.mostrarJOptioneMessage(
+                    "Se ha alcanzado el limite maximo de usuarios activos permitidos en el sistema");
             return false;
         } else {
             return true;
@@ -54,20 +55,18 @@ class ValidacionUsuario {
 
     }
 
-    public void validarInicioSesion(String identificacionIngresada, String idUsuarioIngresada) {
+    public boolean validarInicioSesion(String identificacionIngresada, String idUsuarioIngresada) {
         ArrayList<Usuario> listaUnificada = this.lista.devolverListasUsuariosUnificada();
-        for (int i  = 0; i < listaUnificada.size(); i++) {
+        for (int i = 0; i < listaUnificada.size(); i++) {
             Usuario usuario = listaUnificada.get(i);
-            if (usuario.getIdentificacion().equals(identificacionIngresada) && usuario.getIdUsuario().equals(idUsuarioIngresada)) {
-                System.out.println("Acceso consecdido");
-            } else {
-                System.out.println("Acceso denego");
+            if (usuario.getIdentificacion().equals(identificacionIngresada)
+                    && usuario.getIdUsuario().equals(idUsuarioIngresada)) {
+                return true;
             }
         }
+        return false;
     }
 
-    
-    //SETTERS Y GETTERS
-    
-    
+    // SETTERS Y GETTERS
+
 }

@@ -7,7 +7,9 @@ import java.util.ArrayList;
 public class ListasSistemaEvento {
 public static void main(String[] args) {
     ListasSistemaEvento listas = new ListasSistemaEvento();
-    ValidacionUsuario validacionUsuario = new ValidacionUsuario();
+    MostrarMensajes mensajes = new MostrarMensajes();
+    ControlCreaciones control = new ControlCreaciones();
+    ValidacionUsuario validacionUsuario = new ValidacionUsuario(listas, mensajes,control);
     Administrador admin = new Administrador("Erick", "118580448", "dadadadada", GenerarID.generarID("USR"));
     Administrador admin1 = new Administrador("Jorge", "118580448", "dadadadada", GenerarID.generarID("USR"));
     Cliente cliente1 = new Cliente("Ruth", "118580448", "dadadadada", GenerarID.generarID("USR"));
