@@ -9,11 +9,14 @@ public class MenuSistema {
         ControlCreaciones controlCreaciones = new ControlCreaciones();
         ValidacionUsuario validacionUsuario = new ValidacionUsuario(listas, mensajes, controlCreaciones);
         MenuSistema menu = new MenuSistema(mensajes, listas, validacionUsuario, controlCreaciones);
-        menu.mostrarMenuLogin();
+        Cliente cliente = new Cliente(null, "118580448", null, GenerarID.generarID("USR"));
+        listas.agregarClienteLista(cliente);
+        menu.mostrarMenuPrincipal();
+        /* menu.mostrarIniciarSesion(); */
 
     }
 
-    //Atributos
+    // Atributos
     // Array con las opciones del menu principañ
     private String[] opcionesMenu = { "Iniciar Sesión", "Registrarse" };
     // Se crea un array para las opciones de acceso que tendran los Usuarios y los
@@ -21,14 +24,16 @@ public class MenuSistema {
     private String[] opcionesMenuAdmin = { "Crear Evento", "Crear Administrador", "Mostar Reportes",
             "Gestionar Eventos",
             "Gestionar Usuarios" };
-    //Recibimos una instancia de la clase MostrarMensajes
+    private String[] opcionesMenuCliente = { "Comprar Entrada", "Mostrar Eventos", "Editar Entrada" };
+    // Recibimos una instancia de la clase MostrarMensajes
     private MostrarMensajes mensajes;
     private ListasSistemaEvento listas;
     private ValidacionUsuario validacionUsuario;
     private ControlCreaciones controlCreaciones;
 
-    //Constructor
-    public MenuSistema(MostrarMensajes pmensajes, ListasSistemaEvento pListas, ValidacionUsuario pValidacionUsuario, ControlCreaciones pControlCreaciones) {
+    // Constructor
+    public MenuSistema(MostrarMensajes pmensajes, ListasSistemaEvento pListas, ValidacionUsuario pValidacionUsuario,
+            ControlCreaciones pControlCreaciones) {
         this.mensajes = pmensajes;
         this.listas = pListas;
         this.validacionUsuario = pValidacionUsuario;
@@ -40,7 +45,7 @@ public class MenuSistema {
         return this.mensajes.mostrarJOptioneInputOpciones("Login", opcionesMenu, 0);
     }
 
-    //Se muestra el menú del login
+    // Se muestra el menú del login
     public void mostrarMenuLogin() {
         int opcionSeleccionada;
         do {
@@ -48,6 +53,7 @@ public class MenuSistema {
             switch (opcionSeleccionada) {
                 case 0:
                     this.mensajes.mostrarJOptioneMessage("Ha ingresado a Iniciar Sesion");
+                    this.mostrarIniciarSesion();
                     break;
 
                 case 1:
@@ -66,36 +72,54 @@ public class MenuSistema {
 
     }
 
-    //Se muestra las entradas de texto para crear usuarios
+    // Se muestra las entradas de texto para crear usuarios
     public void registrarUsuario() {
-        if(this.validacionUsuario.validarCantidadUsuarios()) {
+        if (this.validacionUsuario.validarCantidadUsuarios()) {
             String identificacionUsuario = mensajes.mostrarJOptioneInput("Ingrese la identificación");
-        Boolean usuarioExiste = validacionUsuario.validarUsuarioExistente(identificacionUsuario);
-        if (!usuarioExiste) {
-            String nombreUsuario = mensajes.mostrarJOptioneInput("Ingrese su nombre");
-            String correoUsuario = mensajes.mostrarJOptioneInput("Ingrese su correo");
-            Cliente cliente = new Cliente(nombreUsuario, identificacionUsuario, correoUsuario,
-                    GenerarID.generarID("USR"));
-            this.listas.agregarClienteLista(cliente);
-            this.controlCreaciones.setControlUsuarios();
-            StringBuilder texto = this.mostrarDatosUsuarioCreado(cliente);
-            this.mensajes.mostrarJOptioneMessage(texto.toString());
-            this.mensajes.eliminarMensaje(texto);
- 
-        } else {
-            mensajes.mostrarJOptioneMessage("Regresando al menú anterior");
-        }
+            Boolean usuarioExiste = validacionUsuario.validarUsuarioExistente(identificacionUsuario);
+            if (!usuarioExiste) {
+                String nombreUsuario = mensajes.mostrarJOptioneInput("Ingrese su nombre");
+                String correoUsuario = mensajes.mostrarJOptioneInput("Ingrese su correo");
+                Cliente cliente = new Cliente(nombreUsuario, identificacionUsuario, correoUsuario,
+                        GenerarID.generarID("USR"));
+                this.listas.agregarClienteLista(cliente);
+                this.controlCreaciones.setControlUsuarios();
+                StringBuilder texto = this.mostrarDatosUsuarioCreado(cliente);
+                this.mensajes.mostrarJOptioneMessage(texto.toString());
+                this.mensajes.eliminarMensaje(texto);
+
+            } else {
+                mensajes.mostrarJOptioneMessage("Regresando al menú anterior");
+            }
         }
 
+    }
+
+    // Se crea los input para el inicio de sesion
+    public void mostrarIniciarSesion() {
+        int intentos = 3;
         
+        do {
+            String identificacionIngresada = this.mensajes.mostrarJOptioneInput("Ingrese la identifación");
+            String idUsuario = this.mensajes.mostrarJOptioneInput("Ingrese el ID-USUARIO").toUpperCase();
+            if (this.validacionUsuario.validarInicioSesion(identificacionIngresada, idUsuario)) {
+                this.mensajes.mostrarJOptioneMessage("Acceso Permitido");
+                return;
+            } else {
+                this.mensajes.mostrarJOptioneMessage("Datos incorrectos\n Intentelo de nuevo");
+                intentos--;
+
+            }
+            System.out.println(intentos);
+        } while (intentos != 0);
+        if (intentos <= 0) {
+            this.mensajes.mostrarJOptioneMessage("LIMITE DE INTENTOS ALCANZADOS VOLVIENDO AL MENU PRINCIPAL");
+        }
 
     }
 
-    public void IniciarSesion() {
-
-    }
-
-    //Se genera un metodo para imprimir la informacion la informaicon del cliente mostrado
+    // Se genera un metodo para imprimir la informacion la informaicon del cliente
+    // mostrado
 
     public StringBuilder mostrarDatosUsuarioCreado(Cliente cliente) {
         StringBuilder texto = this.mensajes.StringBuilder();
@@ -111,12 +135,4 @@ public class MenuSistema {
         return texto;
     }
 
-
-
 }
-
-
- 
-    
-
-
