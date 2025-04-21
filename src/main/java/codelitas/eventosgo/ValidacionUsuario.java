@@ -20,7 +20,7 @@ class ValidacionUsuario {
     private ListasSistemaEvento lista;
     private MostrarMensajes mensajes;
     private ControlCreaciones controlCreaciones;
-    private int usuariosMaximos = 3;
+    private int usuariosMaximos = 200;
     private int eventosMaximos = 3;
 
     // Constructor

@@ -9,9 +9,8 @@ public class MenuSistema {
         ControlCreaciones controlCreaciones = new ControlCreaciones();
         ValidacionUsuario validacionUsuario = new ValidacionUsuario(listas, mensajes, controlCreaciones);
         MenuSistema menu = new MenuSistema(mensajes, listas, validacionUsuario, controlCreaciones);
-        Cliente cliente = new Cliente(null, "118580448", null, GenerarID.generarID("USR"));
-        listas.agregarClienteLista(cliente);
-        menu.mostrarMenuPrincipal();
+        menu.mostrarMenuUsuarios("adm");
+
         /* menu.mostrarIniciarSesion(); */
 
     }
@@ -42,7 +41,7 @@ public class MenuSistema {
 
     // Se muestra el menú principal
     public int mostrarMenuPrincipal() {
-        return this.mensajes.mostrarJOptioneInputOpciones("Login", opcionesMenu, 0);
+        return this.mensajes.mostrarJOptioneInputOpciones("Login", this.opcionesMenu, 0);
     }
 
     // Se muestra el menú del login
@@ -98,7 +97,7 @@ public class MenuSistema {
     // Se crea los input para el inicio de sesion
     public void mostrarIniciarSesion() {
         int intentos = 3;
-        
+
         do {
             String identificacionIngresada = this.mensajes.mostrarJOptioneInput("Ingrese la identifación");
             String idUsuario = this.mensajes.mostrarJOptioneInput("Ingrese el ID-USUARIO").toUpperCase();
@@ -118,9 +117,19 @@ public class MenuSistema {
 
     }
 
+    // Se crea metodo para mostrar los menus de los usuarios dependiendo del tipo
+    public void mostrarMenuUsuarios(String tipoUsuario) {
+        if (tipoUsuario.toUpperCase().contains("USR")) {
+            this.mensajes.mostrarJOptioneInputOpciones("MENU CLIENTES", this.opcionesMenuCliente, 0);
+        } else if (tipoUsuario.toUpperCase().contains("ADM")) {
+            this.mensajes.mostrarJOptioneInputOpciones("MENU ADMINISTRADOR", this.opcionesMenuAdmin, 0);
+        } else {
+            this.mensajes.mostrarJOptioneMessage("ERROR");
+        }
+    }
+
     // Se genera un metodo para imprimir la informacion la informaicon del cliente
     // mostrado
-
     public StringBuilder mostrarDatosUsuarioCreado(Cliente cliente) {
         StringBuilder texto = this.mensajes.StringBuilder();
         texto.append("Usuario creado exitosamente");

@@ -7,15 +7,12 @@ public class GenerarID {
     private static int consecutivoUsuario = 0;
     private static int consecutivoEntrada = 0;
     private static int consecutivoEvento = 0;
-    private int consecutivoADMIN = 0;
+    private static int consecutivoADMIN = 0;
 
-    // control de capacidades
-    private static int capacidadMaximaUsuarios = 3;
-    private static int capacidadMaximaEntradas = 3;
-    private static int capacidadMaximaEventos = 3;
-
+    //Se crea metodod para generar el ID correspondeinte segun el tipo de ID que se necesita
     public static String generarID(String tipoID) {
         String idGenerado = "";
+        tipoID = tipoID.toUpperCase();
         // VALIDAR el tipo de  id a generar
         switch (tipoID) {
             case "USR":
@@ -30,55 +27,21 @@ public class GenerarID {
                 consecutivoEntrada++;
                 idGenerado = String.format("%s-%03d", tipoID, consecutivoEntrada);
                 break;
+            case "ADM":
+                consecutivoADMIN++;
+                idGenerado = String.format("%s-%03d", tipoID, consecutivoADMIN);
+                break;
 
             default:
-                JOptionPane.showMessageDialog(null, "A ingresado un tipo de ID incorrecto: Tipos de ID:\nUSR,EVT,TKT");
+                JOptionPane.showMessageDialog(null, "Ha ingresado un tipo de ID incorrecto: Tipos de ID:\nUSR,EVT,TKT");
                 break;
         }
         return idGenerado;
     }
 
-    public String generarIDAdmnistrador() {
-        consecutivoADMIN++;
-        String IDGeneradoAdmin = String.format("%s-%02d", "Admin", this.consecutivoADMIN);
-        return IDGeneradoAdmin;
-    }
-
     public static void main(String[] args) {
         GenerarID generarID = new GenerarID();
-        System.out.println(generarID.generarIDAdmnistrador());
-        System.out.println(generarID.generarIDAdmnistrador());
-        System.out.println(generarID.generarIDAdmnistrador());
-    }
-
-    
-    //SIN USAR ACTUALMENTE
-    public static void validarCapacidad(String tipoID) {
-        switch (tipoID) {
-            case "USR":
-                if (consecutivoUsuario >= capacidadMaximaUsuarios) {
-                    mostrarMensaje("usuarios", capacidadMaximaUsuarios, consecutivoUsuario);
-                }
-                break;
-            case "EVT":
-                if (consecutivoEvento >= capacidadMaximaEventos) {
-                    mostrarMensaje("eventos", capacidadMaximaEventos, consecutivoEvento);
-                }
-                break;
-            case "TKT":
-                if (consecutivoEntrada >= capacidadMaximaEntradas) {
-                    mostrarMensaje("entradas", capacidadMaximaEntradas, consecutivoEntrada);
-                }
-                break;
-            default:
-                break;
-        }
-    }
-
-    private static void mostrarMensaje(String tipo, int capacidadMaxima, int consecutivo) {
-        JOptionPane.showMessageDialog(null,
-                "Ha superado la capacidad máxima de " + tipo + "\nCapacidad: " + capacidadMaxima + " de "
-                        + consecutivo + " posibles");
+        System.out.println(generarID("usr"));
     }
 
 }
