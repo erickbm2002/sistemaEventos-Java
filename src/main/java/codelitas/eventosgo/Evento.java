@@ -24,24 +24,6 @@ public class Evento {
         this.capacidadMaximaEvento = pCapacidadMaximaEvento;
     }
 
-    // Metodos
-    public void mostrarDatosEvento() {
-       
-
-    }
-    //SIN USAR
-
-    public void realizarEvento() {
-
-    }
-
-    public void venderEntradas() {
-
-    }
-    //
-
-    
-
     //getters y setters
     public String getNombreEvento() {
         return nombreEvento;

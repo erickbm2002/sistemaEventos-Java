@@ -15,6 +15,12 @@ public class Cliente extends Usuario {
         this.idsEntradasCompradas = new ArrayList<>();
     }
 
+    //MEETODOS
+
+    public void comprarEntrada() {
+        
+    }
+
     //Metodos getters y setters
     public ArrayList<String> getIDSEntradasCompradas() {
         return this.idsEntradasCompradas;

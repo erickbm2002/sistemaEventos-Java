@@ -41,6 +41,11 @@ public static void main(String[] args) {
         listaAdministradores = new ArrayList<>();
         listaEventos = new ArrayList<>();
     }
+
+    public ListasSistemaEvento(String nombre) {
+        Administrador adminDefault = new Administrador(nombre, "12345678", "admindefault@gmail.com", GenerarID.generarID("ADM"));
+        this.agregarAdministradorLista(adminDefault);
+    }
     
     //Metodos
     //Agrega un  usuario cliente a lista

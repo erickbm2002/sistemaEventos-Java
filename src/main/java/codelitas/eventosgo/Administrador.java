@@ -8,6 +8,14 @@ public class Administrador extends Usuario {
         this.setRollUsuario(RollUsuario.ADMINISTRADOR);
     }
 
+    //Metodos
+
+    //Metodo para generar eventos
+    public void generarEvento()  {
+        Evento evento = new Evento(getCorreo(), getCorreo(), getNombre(), getIdentificacion(), getIdUsuario(), getCorreo(), 0);
+        
+    }
+
 
 
 }

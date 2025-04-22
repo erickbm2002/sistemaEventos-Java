@@ -94,6 +94,12 @@ public class MenuSistema {
 
     }
 
+    public void menuGenerarEvento() {
+        String nombreEvento = "Hola";
+        System.out.println(nombreEvento);
+        nombreEvento = String.valueOf(0);
+    }
+
     // Se crea los input para el inicio de sesion
     public void mostrarIniciarSesion() {
         int intentos = 3;
@@ -141,6 +147,24 @@ public class MenuSistema {
         texto.append("ID Usuario:").append(cliente.getIdUsuario());
         texto.append("\n");
         texto.append("Nota:El ID-USUARIO es necesario para el inicio de Sesion");
+        return texto;
+    }
+
+    public StringBuilder mostrarDatosEventoCreado(Evento evento) {
+        StringBuilder texto = this.mensajes.StringBuilder();
+        texto.append("Evento Creado exitosamente");
+        texto.append("\n");
+        texto.append("Nombre del evento: ").append(evento.getNombreEvento());
+        texto.append("\n");
+        texto.append("Id Evento: ").append(evento.getIdEvento());
+        texto.append("\n");
+        texto.append("Ubicación del Evento: ").append(evento.getUbicacionEvento());
+        texto.append("\n");
+        texto.append("Fecha y Hora del Evento: ").append(evento.getFecha()).append(" ").append(evento.getHora());
+        texto.append("\n");
+        texto.append("Tipo de Evento").append(evento.getTipoEvento());
+        texto.append("\n");
+        texto.append("Capacidad del evento").append(evento.getCapacidadMaximaEvento());
         return texto;
     }
 
