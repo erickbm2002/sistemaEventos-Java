@@ -11,9 +11,9 @@ public class Administrador extends Usuario {
     //Metodos
 
     //Metodo para generar eventos
-    public void generarEvento()  {
-        Evento evento = new Evento(getCorreo(), getCorreo(), getNombre(), getIdentificacion(), getIdUsuario(), getCorreo(), 0);
-        
+    public void generarEvento(String pNombreEvento, String pUbicacionEvento, String pFechaEvento, String pHoraEvento, String pTipoEvento, int pCapacidadEvento)  {
+        Evento evento = new Evento(pNombreEvento, pUbicacionEvento, pFechaEvento, pHoraEvento, pTipoEvento,
+                pCapacidadEvento);
     }
 
 

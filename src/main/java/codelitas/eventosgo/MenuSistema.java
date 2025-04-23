@@ -9,9 +9,9 @@ public class MenuSistema {
         ControlCreaciones controlCreaciones = new ControlCreaciones();
         ValidacionUsuario validacionUsuario = new ValidacionUsuario(listas, mensajes, controlCreaciones);
         MenuSistema menu = new MenuSistema(mensajes, listas, validacionUsuario, controlCreaciones);
-        menu.mostrarMenuUsuarios("adm");
-
+        /* menu.mostrarMenuUsuarios("adm"); */
         /* menu.mostrarIniciarSesion(); */
+        menu.menuGenerarEvento();
 
     }
 
@@ -24,7 +24,7 @@ public class MenuSistema {
             "Gestionar Eventos",
             "Gestionar Usuarios" };
     private String[] opcionesMenuCliente = { "Comprar Entrada", "Mostrar Eventos", "Editar Entrada" };
-    // Recibimos una instancia de la clase MostrarMensajes
+    // Generamos instacias de otras clases que se van a ocupar
     private MostrarMensajes mensajes;
     private ListasSistemaEvento listas;
     private ValidacionUsuario validacionUsuario;
@@ -70,35 +70,8 @@ public class MenuSistema {
         } while (opcionSeleccionada != -1);
 
     }
-
-    // Se muestra las entradas de texto para crear usuarios
-    public void registrarUsuario() {
-        if (this.validacionUsuario.validarCantidadUsuarios()) {
-            String identificacionUsuario = mensajes.mostrarJOptioneInput("Ingrese la identificación");
-            Boolean usuarioExiste = validacionUsuario.validarUsuarioExistente(identificacionUsuario);
-            if (!usuarioExiste) {
-                String nombreUsuario = mensajes.mostrarJOptioneInput("Ingrese su nombre");
-                String correoUsuario = mensajes.mostrarJOptioneInput("Ingrese su correo");
-                Cliente cliente = new Cliente(nombreUsuario, identificacionUsuario, correoUsuario,
-                        GenerarID.generarID("USR"));
-                this.listas.agregarClienteLista(cliente);
-                this.controlCreaciones.setControlUsuarios();
-                StringBuilder texto = this.mostrarDatosUsuarioCreado(cliente);
-                this.mensajes.mostrarJOptioneMessage(texto.toString());
-                this.mensajes.eliminarMensaje(texto);
-
-            } else {
-                mensajes.mostrarJOptioneMessage("Regresando al menú anterior");
-            }
-        }
-
-    }
-
-    public void menuGenerarEvento() {
-        String nombreEvento = "Hola";
-        System.out.println(nombreEvento);
-        nombreEvento = String.valueOf(0);
-    }
+ 
+    //METODOS PARA MOSTRAR INFORMACION
 
     // Se crea los input para el inicio de sesion
     public void mostrarIniciarSesion() {
@@ -166,6 +139,49 @@ public class MenuSistema {
         texto.append("\n");
         texto.append("Capacidad del evento").append(evento.getCapacidadMaximaEvento());
         return texto;
+    }
+
+    // Metodo que generan acciones en los menu
+    // Se muestra las entradas de texto para crear usuarios
+    public void registrarUsuario() {
+        if (this.validacionUsuario.validarCantidadUsuarios()) {
+            String identificacionUsuario = mensajes.mostrarJOptioneInput("Ingrese la identificación");
+            Boolean usuarioExiste = validacionUsuario.validarUsuarioExistente(identificacionUsuario);
+            if (!usuarioExiste) {
+                String nombreUsuario = mensajes.mostrarJOptioneInput("Ingrese su nombre");
+                String correoUsuario = mensajes.mostrarJOptioneInput("Ingrese su correo");
+                Cliente cliente = new Cliente(nombreUsuario, identificacionUsuario, correoUsuario,
+                        GenerarID.generarID("USR"));
+                this.listas.agregarClienteLista(cliente);
+                this.controlCreaciones.setControlUsuarios();
+                StringBuilder texto = this.mostrarDatosUsuarioCreado(cliente);
+                this.mensajes.mostrarJOptioneMessage(texto.toString());
+                this.mensajes.eliminarMensaje(texto);
+
+            } else {
+                mensajes.mostrarJOptioneMessage("Regresando al menú anterior");
+            }
+        }
+
+    }
+
+    // Se muestra las entradas de texto para crear Eventos
+    public void menuGenerarEvento() {
+        String nombreEvento = this.mensajes.mostrarJOptioneInput("Ingrese el nombre del Evento");
+        int seleccionUbicacion = this.mensajes.mostrarJOptioneInputOpciones("Ubicaciones Disponibles",this.obtenerUbicacionesComoString() ,
+                0);
+        System.out.println(nombreEvento);
+        System.out.println(seleccionUbicacion);
+    }
+
+    //Metodos para obtener informacion 
+    private String[] obtenerUbicacionesComoString() {
+        Evento.UbicacionesEvento[] ubicaciones = Evento.getUbicacionesEvento();
+        String[] ubicacionesStr = new String[ubicaciones.length];
+        for (int i = 0; i < ubicaciones.length; i++) {
+            ubicacionesStr[i] = ubicaciones[i].name().replace("_", " ");
+        }
+        return ubicacionesStr;
     }
 
 }

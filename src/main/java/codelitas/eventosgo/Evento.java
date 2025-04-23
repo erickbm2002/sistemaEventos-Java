@@ -11,12 +11,18 @@ public class Evento {
     private String tipoEvento;
     private int capacidadMaximaEvento;
 
+    public static enum UbicacionesEvento {
+        ESTADIO_NACIONAL,
+        CENTRO_DE_CONVENCIONES,
+        PEDREGAL,
+        PARQUE_VIVA
+    }
 
     //Constructor
-    public Evento(String pNombreEvento, String pIdEvento, String pUbicacionEvento, String pfecha,String phora,
+    public Evento(String pNombreEvento,String pUbicacionEvento, String pfecha,String phora,
             String pTipoEvento, int pCapacidadMaximaEvento) {
-        this.nombreEvento = pNombreEvento;
-        this.idEvento = pIdEvento;
+        this.nombreEvento = pNombreEvento.toLowerCase();
+        this.idEvento = GenerarID.generarID("EVT");
         this.ubicacionEvento = pUbicacionEvento;
         this.fecha = pfecha;
         this.hora = phora;
@@ -29,12 +35,21 @@ public class Evento {
         return nombreEvento;
     }
 
+    public String getNombreEventoFormato() {
+        return nombreEvento.substring(0, 1).toLowerCase() + nombreEvento.substring(1);
+    }
+
     public String getIdEvento() {
         return idEvento;
     }
 
     public String getUbicacionEvento() {
         return ubicacionEvento;
+    }
+
+    public static UbicacionesEvento[]  getUbicacionesEvento() {
+        UbicacionesEvento[] ubicaciones = UbicacionesEvento.values();
+        return ubicaciones;
     }
 
     public String getFecha() {
