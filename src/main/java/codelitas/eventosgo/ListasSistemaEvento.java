@@ -10,14 +10,7 @@ public static void main(String[] args) {
     MostrarMensajes mensajes = new MostrarMensajes();
     ControlCreaciones control = new ControlCreaciones();
     ValidacionUsuario validacionUsuario = new ValidacionUsuario(listas, mensajes,control);
-    Administrador admin = new Administrador("Erick", "118580448", "dadadadada", GenerarID.generarID("USR"));
-    Administrador admin1 = new Administrador("Jorge", "118580448", "dadadadada", GenerarID.generarID("USR"));
-    Cliente cliente1 = new Cliente("Ruth", "118580448", "dadadadada", GenerarID.generarID("USR"));
-    Cliente cliente2Cliente = new Cliente("Mami", "118580448", "dadadadada", GenerarID.generarID("USR"));
-    listas.agregarAdministradorLista(admin1);
-    listas.agregarAdministradorLista(admin);
-    listas.agregarClienteLista(cliente2Cliente);
-    listas.agregarClienteLista(cliente1);
+    listas.devolverAdminActual("12345678");
 
     ArrayList<Usuario> listaUnificada = new ArrayList<>();
     listaUnificada = listas.devolverListasUsuariosUnificada();
@@ -40,10 +33,7 @@ public static void main(String[] args) {
         listaUsuarios = new ArrayList<>();
         listaAdministradores = new ArrayList<>();
         listaEventos = new ArrayList<>();
-    }
-
-    public ListasSistemaEvento(String nombre) {
-        Administrador adminDefault = new Administrador(nombre, "12345678", "admindefault@gmail.com", GenerarID.generarID("ADM"));
+        Administrador adminDefault = new Administrador("admin Default", "12345678", "admindefault@gmail.com");
         this.agregarAdministradorLista(adminDefault);
     }
     
@@ -80,6 +70,20 @@ public static void main(String[] args) {
         listaUnificada.addAll(this.listaAdministradores);
         listaUnificada.addAll(this.listaUsuarios);
         return listaUnificada;
+    }
+
+    //Se obtiene admin actual que esta ingresando
+    public Administrador devolverAdminActual(String identificacion) {
+        int posicionAdmin = 0;
+        for (int i = 0; i < listaAdministradores.size(); i++) {
+            Administrador admin = listaAdministradores.get(i);
+            String identificacionAdmin = admin.getIdentificacion();
+            if (identificacionAdmin.equals(identificacion)) {
+                posicionAdmin = i;
+            }
+        }
+        return listaAdministradores.get(posicionAdmin);
+        
     }
     
 

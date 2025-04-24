@@ -29,8 +29,8 @@ public class ControlCreaciones {
         return controlEventos;
     }
 
-    public void setControlEventos(int controlEventos) {
-        this.controlEventos = controlEventos;
+    public void setControlEventos() {
+        this.controlEventos++;
     }
 
     public int getControlEntradas() {

@@ -3,17 +3,25 @@ package codelitas.eventosgo;
 //Se crea una clase Administrador que hereda los atributos y metodos de Clase Usuario
 public class Administrador extends Usuario {
     
-    public Administrador(String pNombre, String pIdentificacion, String pCorreo, String IDUsuario) {
-        super(pNombre, pIdentificacion, pCorreo, IDUsuario);
-        this.setRollUsuario(RollUsuario.ADMINISTRADOR);
+    public Administrador(String pNombre, String pIdentificacion, String pCorreo) {
+        super(pNombre, pIdentificacion, pCorreo, GenerarID.generarID("ADM"));
     }
 
     //Metodos
 
     //Metodo para generar eventos
-    public void generarEvento(String pNombreEvento, String pUbicacionEvento, String pFechaEvento, String pHoraEvento, String pTipoEvento, int pCapacidadEvento)  {
+    public Evento generarEvento(String pNombreEvento, String pUbicacionEvento, String pFechaEvento, String pHoraEvento,
+            String pTipoEvento, int pCapacidadEvento) {
         Evento evento = new Evento(pNombreEvento, pUbicacionEvento, pFechaEvento, pHoraEvento, pTipoEvento,
                 pCapacidadEvento);
+        return evento;
+    }
+    
+    //Metodo par cread admin
+
+    public Administrador generarAdmin(String pNombre, String pIdentificacion, String pCorreo ) {
+        Administrador administrador = new Administrador(pNombre, pIdentificacion, pCorreo);
+        return administrador;
     }
 
 

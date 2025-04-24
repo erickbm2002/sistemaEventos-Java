@@ -9,9 +9,8 @@ public class Cliente extends Usuario {
     private int cantidadEntradasCompradas = 0;
 
     //Se crea constructor que hereda atributos de la clase Uusuari
-    public Cliente(String pNombre, String pIdentificacion, String pCorreo, String IDUsuario) {
-        super(pNombre, pIdentificacion, pCorreo, IDUsuario);
-        this.setRollUsuario(RollUsuario.CLIENTE);
+    public Cliente(String pNombre, String pIdentificacion, String pCorreo) {
+        super(pNombre, pIdentificacion, pCorreo, GenerarID.generarID("USR"));
         this.idsEntradasCompradas = new ArrayList<>();
     }
 
@@ -39,7 +38,7 @@ public class Cliente extends Usuario {
     }
 
     public static void main(String[] args) {
-        Cliente cliente = new Cliente("Erick", "118484", "sadaddad", GenerarID.generarID("USR"));
+        Cliente cliente = new Cliente("Erick", "118484", "sadaddad");
         System.out.println(cliente.getCantidadEntradasCompradas());
         cliente.setCantidadEntradasCompradas();
         cliente.setCantidadEntradasCompradas();

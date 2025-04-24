@@ -5,13 +5,7 @@ public class Usuario {
     private String identificacion;
     private String correo;
     private String idUsuario;
-    private RollUsuario rollUsuario;
   
-
-    public enum RollUsuario {
-        ADMINISTRADOR,
-        CLIENTE
-    }
     //Constructor
     public Usuario(String pNombre, String pidentificacion, String pcorreo, String pidUsuario) {
         this.nombre = pNombre;
@@ -72,13 +66,6 @@ public class Usuario {
         this.idUsuario = idUsuario;
     }
 
-    public RollUsuario getRollUsuario() {
-        return rollUsuario;
-    }
-
-    public void setRollUsuario(RollUsuario rollUsuario) {
-        this.rollUsuario = rollUsuario;
-    }
 
     
     

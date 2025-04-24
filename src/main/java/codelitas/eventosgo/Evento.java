@@ -18,6 +18,12 @@ public class Evento {
         PARQUE_VIVA
     }
 
+    public static enum TiposEvento {
+        CONCIERTO,
+        ACTIVIDAD_RECREATIVA,
+        EVENTO_DEPORTIVO
+    }
+
     //Constructor
     public Evento(String pNombreEvento,String pUbicacionEvento, String pfecha,String phora,
             String pTipoEvento, int pCapacidadMaximaEvento) {
@@ -61,6 +67,11 @@ public class Evento {
     }
 
     public String getTipoEvento() {
+        return tipoEvento;
+    }
+
+    public static TiposEvento[] getTiposEvento() {
+        TiposEvento[] tipoEvento = TiposEvento.values();
         return tipoEvento;
     }
 

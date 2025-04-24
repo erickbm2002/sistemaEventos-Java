@@ -11,7 +11,7 @@ public class MenuSistema {
         MenuSistema menu = new MenuSistema(mensajes, listas, validacionUsuario, controlCreaciones);
         /* menu.mostrarMenuUsuarios("adm"); */
         /* menu.mostrarIniciarSesion(); */
-        menu.menuGenerarEvento();
+        menu.mostrarMenuPrincipal();
 
     }
 
@@ -24,6 +24,7 @@ public class MenuSistema {
             "Gestionar Eventos",
             "Gestionar Usuarios" };
     private String[] opcionesMenuCliente = { "Comprar Entrada", "Mostrar Eventos", "Editar Entrada" };
+    private String usuarioActual;
     // Generamos instacias de otras clases que se van a ocupar
     private MostrarMensajes mensajes;
     private ListasSistemaEvento listas;
@@ -70,25 +71,27 @@ public class MenuSistema {
         } while (opcionSeleccionada != -1);
 
     }
- 
-    //METODOS PARA MOSTRAR INFORMACION
+
+    // METODOS PARA MOSTRAR INFORMACION
 
     // Se crea los input para el inicio de sesion
     public void mostrarIniciarSesion() {
         int intentos = 3;
+        String identificacionIngresada = "";
 
         do {
-            String identificacionIngresada = this.mensajes.mostrarJOptioneInput("Ingrese la identifación");
+            identificacionIngresada = this.mensajes.mostrarJOptioneInput("Ingrese la identifación");
             String idUsuario = this.mensajes.mostrarJOptioneInput("Ingrese el ID-USUARIO").toUpperCase();
             if (this.validacionUsuario.validarInicioSesion(identificacionIngresada, idUsuario)) {
                 this.mensajes.mostrarJOptioneMessage("Acceso Permitido");
+                this.mostrarMenuUsuarios(idUsuario);
+                this.usuarioActual = identificacionIngresada;
                 return;
             } else {
                 this.mensajes.mostrarJOptioneMessage("Datos incorrectos\n Intentelo de nuevo");
                 intentos--;
 
             }
-            System.out.println(intentos);
         } while (intentos != 0);
         if (intentos <= 0) {
             this.mensajes.mostrarJOptioneMessage("LIMITE DE INTENTOS ALCANZADOS VOLVIENDO AL MENU PRINCIPAL");
@@ -98,13 +101,22 @@ public class MenuSistema {
 
     // Se crea metodo para mostrar los menus de los usuarios dependiendo del tipo
     public void mostrarMenuUsuarios(String tipoUsuario) {
-        if (tipoUsuario.toUpperCase().contains("USR")) {
-            this.mensajes.mostrarJOptioneInputOpciones("MENU CLIENTES", this.opcionesMenuCliente, 0);
-        } else if (tipoUsuario.toUpperCase().contains("ADM")) {
-            this.mensajes.mostrarJOptioneInputOpciones("MENU ADMINISTRADOR", this.opcionesMenuAdmin, 0);
-        } else {
-            this.mensajes.mostrarJOptioneMessage("ERROR");
-        }
+
+        int opcionSeleccionada = 0;
+        do {
+            if (tipoUsuario.toUpperCase().contains("USR")) {
+                opcionSeleccionada = this.mensajes.mostrarJOptioneInputOpciones("MENU CLIENTES",
+                        this.opcionesMenuCliente, 0);
+            } else if (tipoUsuario.toUpperCase().contains("ADM")) {
+                opcionSeleccionada = this.mensajes.mostrarJOptioneInputOpciones("MENU ADMINISTRADOR",
+                        this.opcionesMenuAdmin, 0);
+                this.generarAccionesAdmin(opcionSeleccionada);
+
+            } else {
+                this.mensajes.mostrarJOptioneMessage("ERROR TIPO USUARIO INCORRECTO");
+            }
+        } while (opcionSeleccionada != -1);
+        
     }
 
     // Se genera un metodo para imprimir la informacion la informaicon del cliente
@@ -127,7 +139,7 @@ public class MenuSistema {
         StringBuilder texto = this.mensajes.StringBuilder();
         texto.append("Evento Creado exitosamente");
         texto.append("\n");
-        texto.append("Nombre del evento: ").append(evento.getNombreEvento());
+        texto.append("Nombre del evento: ").append(evento.getNombreEventoFormato());
         texto.append("\n");
         texto.append("Id Evento: ").append(evento.getIdEvento());
         texto.append("\n");
@@ -135,13 +147,42 @@ public class MenuSistema {
         texto.append("\n");
         texto.append("Fecha y Hora del Evento: ").append(evento.getFecha()).append(" ").append(evento.getHora());
         texto.append("\n");
-        texto.append("Tipo de Evento").append(evento.getTipoEvento());
+        texto.append("Tipo de Evento: ").append(evento.getTipoEvento());
         texto.append("\n");
-        texto.append("Capacidad del evento").append(evento.getCapacidadMaximaEvento());
+        texto.append("Capacidad del evento: ").append(evento.getCapacidadMaximaEvento());
+        return texto;
+    }
+
+    public StringBuilder mostrarDatosAdminCreado(Administrador AdministradorCreado) {
+        StringBuilder texto = this.mensajes.StringBuilder();
+        texto.append("Administrador creado exitosamente");
+        texto.append("\n");
+        texto.append("Nombre:").append(AdministradorCreado.getNombre());
+        texto.append("\n");
+        texto.append("Identificación:").append(AdministradorCreado.getIdentificacion());
+        texto.append("\n");
+        texto.append("ID Usuario:").append(AdministradorCreado.getIdUsuario());
+        texto.append("\n");
+        texto.append("Nota:El ID-USUARIO es necesario para el inicio de Sesion");
         return texto;
     }
 
     // Metodo que generan acciones en los menu
+
+    public void generarAccionesAdmin(int opcionSelecconada) {
+        switch (opcionSelecconada) {
+            case 0:
+                this.menuGenerarEvento(this.listas.devolverAdminActual(this.usuarioActual));
+                break;
+            case 1:
+                this.menuGenerarAdmin(this.listas.devolverAdminActual(this.usuarioActual));
+                break;
+            default:
+                this.mensajes.mostrarJOptioneMessage("No se seleccionó ninguna opcion\nVolviendo al menu");
+                break;
+        }
+            }
+    
     // Se muestra las entradas de texto para crear usuarios
     public void registrarUsuario() {
         if (this.validacionUsuario.validarCantidadUsuarios()) {
@@ -150,8 +191,7 @@ public class MenuSistema {
             if (!usuarioExiste) {
                 String nombreUsuario = mensajes.mostrarJOptioneInput("Ingrese su nombre");
                 String correoUsuario = mensajes.mostrarJOptioneInput("Ingrese su correo");
-                Cliente cliente = new Cliente(nombreUsuario, identificacionUsuario, correoUsuario,
-                        GenerarID.generarID("USR"));
+                Cliente cliente = new Cliente(nombreUsuario, identificacionUsuario, correoUsuario);
                 this.listas.agregarClienteLista(cliente);
                 this.controlCreaciones.setControlUsuarios();
                 StringBuilder texto = this.mostrarDatosUsuarioCreado(cliente);
@@ -166,22 +206,97 @@ public class MenuSistema {
     }
 
     // Se muestra las entradas de texto para crear Eventos
-    public void menuGenerarEvento() {
-        String nombreEvento = this.mensajes.mostrarJOptioneInput("Ingrese el nombre del Evento");
-        int seleccionUbicacion = this.mensajes.mostrarJOptioneInputOpciones("Ubicaciones Disponibles",this.obtenerUbicacionesComoString() ,
-                0);
-        System.out.println(nombreEvento);
-        System.out.println(seleccionUbicacion);
+    public void menuGenerarEvento(Administrador administrador) {
+        if (this.validacionUsuario.validarCantidadEventos()) {
+            String nombreEvento = this.mensajes.mostrarJOptioneInput("Ingrese el nombre del Evento");
+            String ubicacionEvento = this.obtenerUbicacionYTipoDesdeIndice(this.mensajes.mostrarJOptioneInputOpciones(
+                    "Ubicaciciones Disponibles", this.obtenerUbicacionesYTiposComoString("ubicacion"), 0), "ubicacion");
+            String fechaEvento = this.mensajes
+                    .mostrarJOptioneInput("Ingrese la fecha del Evento en formato DD/MM/AAAA");
+            String horaEvento = this.mensajes.mostrarJOptioneInput("Ingrese la hora del Evento en formato HH:MM");
+            String tipoEvento = this.obtenerUbicacionYTipoDesdeIndice(this.mensajes.mostrarJOptioneInputOpciones(
+                    "Tipos de Eventos", this.obtenerUbicacionesYTiposComoString("tipoevento"), 0), "tipoevento");
+            int capacidadEvento = Integer
+                    .parseInt(this.mensajes.mostrarJOptioneInput("Ingrese la capacidad maxima del Evento"));
+            Evento evento = administrador.generarEvento(nombreEvento, ubicacionEvento, fechaEvento, horaEvento,
+                    tipoEvento,
+                    capacidadEvento);
+            this.listas.agregarEventoLista(evento);
+            this.controlCreaciones.setControlEventos();
+            StringBuilder texto = this.mostrarDatosEventoCreado(evento);
+            this.mensajes.mostrarJOptioneMessage(texto.toString());
+            this.mensajes.eliminarMensaje(texto);
+        } else {
+            this.mensajes.mostrarJOptioneMessage("Regresando al menu anterior");
+        }
+
+    }
+    
+    //Se crea metodo para generar admin
+    public void menuGenerarAdmin(Administrador administradorActual) {
+        String identificacionAdmin = this.mensajes.mostrarJOptioneInput("Ingrese la identificación del Admin");
+        Boolean adminExiste = this.validacionUsuario.validarUsuarioExistente(identificacionAdmin);
+        if (!adminExiste) {
+            String nombreAdmin = this.mensajes.mostrarJOptioneInput("Ingrese el nombre del Admin");
+            String correoAdmin = this.mensajes.mostrarJOptioneInput("Ingrese el correo del admin");
+            Administrador adminCreado = administradorActual.generarAdmin(nombreAdmin, identificacionAdmin, correoAdmin);
+            this.listas.agregarAdministradorLista(adminCreado);
+            StringBuilder texto = this.mostrarDatosAdminCreado(adminCreado);
+            this.mensajes.mostrarJOptioneMessage(texto.toString());
+            this.mensajes.eliminarMensaje(texto);
+
+
+        }
     }
 
-    //Metodos para obtener informacion 
-    private String[] obtenerUbicacionesComoString() {
-        Evento.UbicacionesEvento[] ubicaciones = Evento.getUbicacionesEvento();
-        String[] ubicacionesStr = new String[ubicaciones.length];
-        for (int i = 0; i < ubicaciones.length; i++) {
-            ubicacionesStr[i] = ubicaciones[i].name().replace("_", " ");
+    // Metodos para obtener informacion
+    // Metodo para pasar los Enums a String para mostrarlos en el menu
+    private String[] obtenerUbicacionesYTiposComoString(String datoAMostrar) {
+        datoAMostrar = datoAMostrar.toLowerCase();
+        if (datoAMostrar.equals("ubicacion")) {
+            Evento.UbicacionesEvento[] ubicaciones = Evento.getUbicacionesEvento();
+            String[] ubicacionesStr = new String[ubicaciones.length];
+            for (int i = 0; i < ubicaciones.length; i++) {
+                ubicacionesStr[i] = ubicaciones[i].name().replace("_", " ");
+            }
+            return ubicacionesStr;
+        } else if (datoAMostrar.equals("tipoevento")) {
+            Evento.TiposEvento[] tiposDeEventos = Evento.getTiposEvento();
+            String[] tiposDeEventosStr = new String[tiposDeEventos.length];
+            for (int i = 0; i < tiposDeEventos.length; i++) {
+                tiposDeEventosStr[i] = tiposDeEventos[i].name().replace("_", " ");
+            }
+            return tiposDeEventosStr;
+        } else {
+            return new String[] { "Error parametro incorrecto" };
         }
-        return ubicacionesStr;
+
+    }
+
+    // Metodo para obtener el indice del enum seleccionado por el usuarioi par
+    // aguadarlo en el objeto
+    private String obtenerUbicacionYTipoDesdeIndice(int indice, String datoAMostrar) {
+        datoAMostrar = datoAMostrar.toLowerCase();
+        if (datoAMostrar.equals("ubicacion")) {
+            Evento.UbicacionesEvento[] ubicaciones = Evento.getUbicacionesEvento();
+            if (indice >= 0 && indice < ubicaciones.length) {
+                return ubicaciones[indice].name();
+            } else {
+                this.mensajes.mostrarJOptioneMessage("Ubicación incorrecta");
+                return "Ubicacion Incorrecta";
+            }
+        } else if (datoAMostrar.equals("tipoevento")) {
+            Evento.TiposEvento[] tiposEventos = Evento.getTiposEvento();
+            if (indice >= 0 && indice < tiposEventos.length) {
+                return tiposEventos[indice].name();
+            } else {
+                this.mensajes.mostrarJOptioneMessage("TIPO DE EVENTO INCORRECTO");
+                return "Tipo de enveto incorrecti";
+            }
+        } else {
+            return "ERROR PARAMETRO INCORRECTO";
+        }
+
     }
 
 }
