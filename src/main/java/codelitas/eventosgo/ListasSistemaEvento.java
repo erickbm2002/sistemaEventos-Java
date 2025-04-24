@@ -24,9 +24,9 @@ public static void main(String[] args) {
 }
 
     //Atributops
-    public ArrayList<Cliente> listaUsuarios;
-    public ArrayList<Administrador> listaAdministradores;
-    public ArrayList<Evento> listaEventos;
+    private ArrayList<Cliente> listaUsuarios;
+    private ArrayList<Administrador> listaAdministradores;
+    private ArrayList<Evento> listaEventos;
 
     //Constructor
     public ListasSistemaEvento() {
@@ -56,8 +56,10 @@ public static void main(String[] args) {
     //Metodo para devolvernos las identificaciones de los usuarios
     public ArrayList<String> devolverIdentificacionListaUsuarios() {
         ArrayList<String> identificacionesUsuarios = new ArrayList<>();
-        for (int i = 0; i < listaUsuarios.size(); i++) {
-            Cliente usuario = listaUsuarios.get(i);
+        ArrayList<Usuario> listaUnificada = new ArrayList<>();
+        listaUnificada = this.devolverListasUsuariosUnificada();
+        for (int i = 0; i < listaUnificada.size(); i++) {
+            Usuario usuario = listaUnificada.get(i);
             String identificacion = usuario.getIdentificacion();
             identificacionesUsuarios.add(identificacion);
         }
@@ -84,6 +86,11 @@ public static void main(String[] args) {
         }
         return listaAdministradores.get(posicionAdmin);
         
+    }
+
+    //Getters y setters
+    public ArrayList<Evento> getListaEvento() {
+        return listaEventos;
     }
     
 

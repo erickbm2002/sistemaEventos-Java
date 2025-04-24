@@ -9,7 +9,6 @@ public class Main {
     ControlCreaciones controlCreaciones = new ControlCreaciones();
     ValidacionUsuario validacionUsuario = new ValidacionUsuario(lista, mensajes, controlCreaciones);
     MenuSistema menuSistema = new MenuSistema(mensajes, lista, validacionUsuario, controlCreaciones);
-    Usuario usuario = new Usuario();
     
     mensajes.mostrarJOptioneMessage("Bienvenido al Sistema\nDerechos Reservados por CODELITAS");
     menuSistema.mostrarMenuLogin();

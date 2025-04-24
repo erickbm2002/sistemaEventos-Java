@@ -5,6 +5,7 @@ public class Entrada {
     private String usuario;
     private String evento;
     private boolean usada;
+    private int entradasDisponibles;
 
     public Entrada(String idEntrada, String usuario, String evento) {
         this.idEntrada = idEntrada;
