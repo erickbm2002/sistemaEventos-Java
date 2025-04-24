@@ -132,6 +132,8 @@ public class MenuSistema {
         texto.append("\n");
         texto.append("Identificación:").append(cliente.getIdentificacion());
         texto.append("\n");
+        texto.append("Correo:").append(cliente.getCorreo());
+        texto.append("\n");
         texto.append("ID Usuario:").append(cliente.getIdUsuario());
         texto.append("\n");
         texto.append("Nota:El ID-USUARIO es necesario para el inicio de Sesion");
@@ -265,8 +267,11 @@ public class MenuSistema {
             case 0:
                 adminActual.mostrarEventos(this.listas);
                 break;
-        
+            case 1:
+                adminActual.mostrarUsuarios(this.listas);
+                break;
             default:
+                this.mensajes.mostrarJOptioneMessage("No se ha seleccionado ninguna opcion\nVolviendo al menu anterior");
                 break;
         }
     }

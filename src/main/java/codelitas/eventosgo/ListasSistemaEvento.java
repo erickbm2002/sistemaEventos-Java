@@ -90,7 +90,11 @@ public static void main(String[] args) {
 
     //Getters y setters
     public ArrayList<Evento> getListaEvento() {
-        return listaEventos;
+        return this.listaEventos;
+    }
+
+    public ArrayList<Cliente> getListaUsuario() {
+        return this.listaUsuarios;
     }
     
 

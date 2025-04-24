@@ -32,6 +32,10 @@ public class Administrador extends Usuario {
         Usuario.mensajes.mostrarJOptioneMessage(Usuario.reportes.generarReporteEventos(listas).toString());
     }
 
+    public void mostrarUsuarios(ListasSistemaEvento listas) {
+        Usuario.mensajes.mostrarJOptioneMessage(Usuario.reportes.generarReporteUsuarios(listas).toString());
+    }
+
 
 
 }

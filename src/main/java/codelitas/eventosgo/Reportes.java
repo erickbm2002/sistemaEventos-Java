@@ -23,7 +23,7 @@ public class Reportes {
 
         public  StringBuilder generarReporteEventos(ListasSistemaEvento listas) {
             ArrayList<Evento> listaEventos = listas.getListaEvento();
-            StringBuilder texto = mensajes.StringBuilder();
+            StringBuilder texto = this.mensajes.StringBuilder();
 
             texto.append("Eventos Disponibles");
             for(int i = 0; i < listaEventos.size(); i++ ) {
@@ -45,9 +45,33 @@ public class Reportes {
                 texto.append("\n");
                 texto.append("Cupos disponibles:").append(evento.getEntradasDisponibles()).append(" de ").append(evento.getCapacidadMaximaEvento());
                 texto.append("\n");
-                texto.append("---------------------------");;
-                texto.append("\n");
+                texto.append("---------------------------");
             } 
+            return texto;
+        }
+
+        public StringBuilder generarReporteUsuarios(ListasSistemaEvento listas) {
+            ArrayList<Cliente> listaClientes = listas.getListaUsuario();
+            StringBuilder texto = this.mensajes.StringBuilder();
+            
+            texto.append("Usuarios Activos:");
+            for (int i = 0; i < listaClientes.size(); i++) {
+                Cliente cliente = listaClientes.get(i);
+                texto.append("\n");
+                texto.append("---------------------------");
+                texto.append("\n");
+                texto.append("Nombre:").append(cliente.getNombre());
+                texto.append("\n");
+                texto.append("Identificación:").append(cliente.getIdentificacion());
+                texto.append("\n");
+                texto.append("Correo:").append(cliente.getCorreo());
+                texto.append("\n");
+                texto.append("ID Usuario:").append(cliente.getIdUsuario());
+                texto.append("\n");
+                texto.append("Entradas compradas:").append(cliente.getCantidadEntradasCompradas());
+                texto.append("\n");
+                texto.append("---------------------------");
+            }
             return texto;
         }
 }
