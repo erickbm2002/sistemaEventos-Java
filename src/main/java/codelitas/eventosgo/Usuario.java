@@ -6,6 +6,7 @@ public class Usuario {
     private String correo;
     private String idUsuario;
     public static Reportes reportes = new Reportes();
+    public static MostrarMensajes mensajes = new MostrarMensajes();
   
     //Constructor
     public Usuario(String pNombre, String pidentificacion, String pcorreo, String pidUsuario) {

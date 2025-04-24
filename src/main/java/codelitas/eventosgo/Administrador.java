@@ -29,7 +29,7 @@ public class Administrador extends Usuario {
     }
 
     public void mostrarEventos(ListasSistemaEvento listas) {
-        Usuario.reportes.generarReporteEventos(listas);
+        Usuario.mensajes.mostrarJOptioneMessage(Usuario.reportes.generarReporteEventos(listas).toString());
     }
 
 

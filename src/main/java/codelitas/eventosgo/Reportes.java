@@ -23,7 +23,6 @@ public class Reportes {
 
         public  StringBuilder generarReporteEventos(ListasSistemaEvento listas) {
             ArrayList<Evento> listaEventos = listas.getListaEvento();
-            System.out.println(listaEventos.size());
             StringBuilder texto = mensajes.StringBuilder();
 
             texto.append("Eventos Disponibles");
