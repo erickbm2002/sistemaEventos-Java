@@ -1,5 +1,7 @@
 package codelitas.eventosgo;
 
+import java.util.ArrayList;
+
 public class Evento {
 
     //atributos
@@ -10,6 +12,7 @@ public class Evento {
     private String hora;
     private String tipoEvento;
     private int capacidadMaximaEvento;
+    private int entradasDisponibles;
 
     public static enum UbicacionesEvento {
         ESTADIO_NACIONAL,
@@ -34,6 +37,7 @@ public class Evento {
         this.hora = phora;
         this.tipoEvento = pTipoEvento;
         this.capacidadMaximaEvento = pCapacidadMaximaEvento;
+        this.entradasDisponibles = this.capacidadMaximaEvento;
     }
 
     //getters y setters
@@ -77,6 +81,14 @@ public class Evento {
 
     public int getCapacidadMaximaEvento() {
         return capacidadMaximaEvento;
+    }
+
+    public int getEntradasDisponibles() {
+        return this.entradasDisponibles;
+    }
+
+    public void setEntradasDisponibles() {
+        this.entradasDisponibles--;
     }
 
     

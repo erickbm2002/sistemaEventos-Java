@@ -1,5 +1,7 @@
 package codelitas.eventosgo;
 
+import java.util.spi.ResourceBundleProvider;
+
 //Clae que va almacenar todo los menus del sistema
 public class MenuSistema {
 
@@ -30,6 +32,7 @@ public class MenuSistema {
     private ListasSistemaEvento listas;
     private ValidacionUsuario validacionUsuario;
     private ControlCreaciones controlCreaciones;
+    public ResourceBundleProvider reportes;
 
     // Constructor
     public MenuSistema(MostrarMensajes pmensajes, ListasSistemaEvento pListas, ValidacionUsuario pValidacionUsuario,
@@ -153,6 +156,8 @@ public class MenuSistema {
         return texto;
     }
 
+    
+
     public StringBuilder mostrarDatosAdminCreado(Administrador AdministradorCreado) {
         StringBuilder texto = this.mensajes.StringBuilder();
         texto.append("Administrador creado exitosamente");
@@ -176,6 +181,9 @@ public class MenuSistema {
                 break;
             case 1:
                 this.menuGenerarAdmin(this.listas.devolverAdminActual(this.usuarioActual));
+                break;
+            case 2:
+                this.menuGenerarReportes(this.listas.devolverAdminActual(this.usuarioActual));
                 break;
             default:
                 this.mensajes.mostrarJOptioneMessage("No se seleccionó ninguna opcion\nVolviendo al menu");
@@ -246,6 +254,20 @@ public class MenuSistema {
             this.mensajes.eliminarMensaje(texto);
 
 
+        }
+    }
+
+    //Se muestra los input para los reportes
+    public void menuGenerarReportes(Administrador adminActual) {
+        String[] opcionesReporte = {"Mostrar Reporte Eventos", "Mostrar Reporte Usuarios"};
+        int opcionSeleccionada = this.mensajes.mostrarJOptioneInputOpciones("Menu Reportes", opcionesReporte, 0);
+        switch (opcionSeleccionada) {
+            case 0:
+                adminActual.mostrarEventos(this.listas);
+                break;
+        
+            default:
+                break;
         }
     }
 

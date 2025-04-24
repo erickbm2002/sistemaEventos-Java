@@ -5,6 +5,7 @@ public class Usuario {
     private String identificacion;
     private String correo;
     private String idUsuario;
+    public static Reportes reportes = new Reportes();
   
     //Constructor
     public Usuario(String pNombre, String pidentificacion, String pcorreo, String pidUsuario) {
@@ -12,24 +13,6 @@ public class Usuario {
         this.identificacion = pidentificacion;
         this.correo = pcorreo;
         this.idUsuario = pidUsuario;
-    }
-
-    public Usuario() {
-        
-    }
-
-    
-
-
-
-    // metodos
-    public void mostrarDatos() {
-
-    }
-
-    //sin usar
-    public void comprarEntrada() {
-
     }
 
     // getters y setters
