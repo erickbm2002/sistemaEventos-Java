@@ -175,7 +175,21 @@ public class MenuSistema {
     }
 
     // Metodo que generan acciones en los menu
+    //Acciones  cliente
+    public void generarAccionesCliente(int opcionSeleecinada) {
+        switch (opcionSeleecinada) {
+            case 0:
+                
+                break;
+            case 1:
+                
 
+                break;
+            default:
+                this.mensajes.mostrarJOptioneMessage("Volviendo al menú anterior");
+                break;
+        }
+    }
     public void generarAccionesAdmin(int opcionSelecconada) {
         switch (opcionSelecconada) {
             case 0:

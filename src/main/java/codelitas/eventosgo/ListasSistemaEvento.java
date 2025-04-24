@@ -88,6 +88,29 @@ public static void main(String[] args) {
         
     }
 
+    // Se obtiene el cliente actual que esta ingresando
+    public Cliente devolverClienteActual (String identificacion) {
+        int posicionCliente = 0;
+        for (int i = 0; i < listaUsuarios.size(); i++) {
+            Cliente cliente = listaUsuarios.get(i);
+            String identificacionCliente = cliente.getIdentificacion();
+            if (identificacionCliente.equals(identificacion)) {
+                posicionCliente = i;
+            }
+        }
+
+        return listaUsuarios.get(posicionCliente);
+    }
+
+    public String[] devolverEventosDisponibles() {
+        String[] listaEventosDisponibles = new String[listaEventos.size()];
+        for (int i = 0; i < listaEventos.size(); i++) {
+            Evento evento = listaEventos.get(i);
+            listaEventosDisponibles[i] = evento.getNombreEventoFormato();
+        }
+        return listaEventosDisponibles;
+    }
+
     //Getters y setters
     public ArrayList<Evento> getListaEvento() {
         return this.listaEventos;

@@ -20,6 +20,10 @@ public class Cliente extends Usuario {
         
     }
 
+    public void mostrarReporteEventos(ListasSistemaEvento listas) {
+        Usuario.reportes.generarReporteEventos(listas);
+    }
+
     //Metodos getters y setters
     public ArrayList<String> getIDSEntradasCompradas() {
         return this.idsEntradasCompradas;
