@@ -4,18 +4,7 @@ import java.util.ArrayList;
 
 //clase para generar los reportes
 public class Reportes {
-    public static void main(String[] args) {
-        ListasSistemaEvento lista = new ListasSistemaEvento();
-        MostrarMensajes mensajes = new MostrarMensajes();
-        Reportes reporte = new Reportes();
-        Evento evento = new Evento("Maluma", "null", "null", "null", "null", 200);
-        Evento evento2 = new Evento("Otro", "null", "null", "null", "null", 200);
-        lista.agregarEventoLista(evento2);
-        lista.agregarEventoLista(evento);
-        mensajes.mostrarJOptioneMessage(reporte.generarReporteEventos(lista).toString());
-        
-    }
-
+  
 
 
     //Atributos

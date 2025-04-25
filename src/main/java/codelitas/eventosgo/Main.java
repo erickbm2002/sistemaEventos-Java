@@ -1,7 +1,8 @@
 package codelitas.eventosgo;
 
 public class Main {
-  public static void main(String[] args) {
+  public static
+   void main(String[] args) {
     //Se inicializan las clases que se van a usar  
     
     MostrarMensajes mensajes = new MostrarMensajes();

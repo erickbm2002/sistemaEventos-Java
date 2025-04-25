@@ -2,22 +2,63 @@ package codelitas.eventosgo;
 
 import java.util.ArrayList;
 
+
 //Se crea una clase cliente que hereda los atributos y metodos de Clase Usuario
 public class Cliente extends Usuario {
     //Metodos especificos de clase cliente
-    private ArrayList<String> idsEntradasCompradas;
+    private ArrayList<Entrada> entradasCompradas;
     private int cantidadEntradasCompradas = 0;
+    private MostrarMensajes mensajes;
 
     //Se crea constructor que hereda atributos de la clase Uusuari
     public Cliente(String pNombre, String pIdentificacion, String pCorreo) {
         super(pNombre, pIdentificacion, pCorreo, GenerarID.generarID("USR"));
-        this.idsEntradasCompradas = new ArrayList<>();
+        this.entradasCompradas = new ArrayList<>();
+        this.mensajes = new MostrarMensajes();
     }
 
     //MEETODOS
 
-    public void comprarEntrada() {
+    public Entrada comprarEntrada() {
+        if(this.cantidadEntradasCompradas < 5) {
+            Entrada entrada = new Entrada();
+            this.setCantidadEntradasCompradas();
+            this.entradasCompradas.add(entrada);
+            return entrada;
+        } else {
+            this.mensajes.mostrarJOptioneMessage("Ha alcanzado el limite maximo de entradas");
+            return null;
+        }
         
+    }
+
+    public boolean asistirEvento(String idEntrada, ArrayList<Entrada> listaEntradas) {
+        idEntrada = idEntrada.toUpperCase();
+        ArrayList<Entrada> entradasUsuarios = this.getEntradasCompradas();
+        for (int i = 0; i < listaEntradas.size(); i++) {
+            Entrada entradasGenerales = listaEntradas.get(i);
+            if (entradasGenerales.getIdEntrada().equals(idEntrada)) {
+                Entrada entradaActual = entradasUsuarios.get(i);
+                if(entradaActual.getIdEntrada().equals(idEntrada)) {
+                    entradaActual.setUsada();
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public StringBuilder mostrarDatosEntrada(Entrada entrada, Evento evento) {
+        StringBuilder texto = this.mensajes.StringBuilder();
+        texto.append("ID Entrada: ").append(entrada.getIdEntrada());
+        texto.append("\n");
+        texto.append("Nombre de Usuario: ").append(this.getNombre());
+        texto.append("\n");
+        texto.append("ID Evento: ").append(evento.getIdEvento());
+        texto.append("\n");
+        texto.append("Recordar guardar el id de entrada para acceder al evento");
+        return texto;
+
     }
 
     public void mostrarReporteEventos(ListasSistemaEvento listas) {
@@ -25,14 +66,7 @@ public class Cliente extends Usuario {
     }
 
     //Metodos getters y setters
-    public ArrayList<String> getIDSEntradasCompradas() {
-        return this.idsEntradasCompradas;
-    }
-
-    public void setIDSEntradasCompradas(String idEntrada) {
-        this.idsEntradasCompradas.add(idEntrada);
-    }
-
+    
     public int getCantidadEntradasCompradas() {
         return this.cantidadEntradasCompradas;
     }
@@ -41,20 +75,9 @@ public class Cliente extends Usuario {
         this.cantidadEntradasCompradas++;
     }
 
-    public static void main(String[] args) {
-        Cliente cliente = new Cliente("Erick", "118484", "sadaddad");
-        System.out.println(cliente.getCantidadEntradasCompradas());
-        cliente.setCantidadEntradasCompradas();
-        cliente.setCantidadEntradasCompradas();
-        System.out.println(cliente.getCantidadEntradasCompradas());
-        cliente.setIDSEntradasCompradas("USR-4454");
-        cliente.setIDSEntradasCompradas("USR-4545");
-        cliente.setIDSEntradasCompradas("USR-441454");
-        System.out.println(cliente.getIDSEntradasCompradas());
-        for (int i = 0; i < cliente.getIDSEntradasCompradas().size(); i++) {
-            System.out.println(cliente.getIDSEntradasCompradas().get(i));
-        }
-
+    public ArrayList<Entrada> getEntradasCompradas() {
+        return this.entradasCompradas;
     }
+
 }
 

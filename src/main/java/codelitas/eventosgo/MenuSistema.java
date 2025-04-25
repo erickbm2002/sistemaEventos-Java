@@ -1,5 +1,6 @@
 package codelitas.eventosgo;
 
+import java.util.ArrayList;
 import java.util.spi.ResourceBundleProvider;
 
 //Clae que va almacenar todo los menus del sistema
@@ -22,10 +23,10 @@ public class MenuSistema {
     private String[] opcionesMenu = { "Iniciar Sesión", "Registrarse" };
     // Se crea un array para las opciones de acceso que tendran los Usuarios y los
     // admin
-    private String[] opcionesMenuAdmin = { "Crear Evento", "Crear Administrador", "Mostar Reportes",
+    private String[] opcionesMenuAdmin = { "Crear Evento", "Crear Administrador", "Mostrar Reportes",
             "Gestionar Eventos",
             "Gestionar Usuarios" };
-    private String[] opcionesMenuCliente = { "Comprar Entrada", "Mostrar Eventos", "Editar Entrada" };
+    private String[] opcionesMenuCliente = { "Comprar Entrada", "Mostrar Eventos", "Asistir Evento" };
     private String usuarioActual;
     // Generamos instacias de otras clases que se van a ocupar
     private MostrarMensajes mensajes;
@@ -110,6 +111,7 @@ public class MenuSistema {
             if (tipoUsuario.toUpperCase().contains("USR")) {
                 opcionSeleccionada = this.mensajes.mostrarJOptioneInputOpciones("MENU CLIENTES",
                         this.opcionesMenuCliente, 0);
+            this.generarAccionesCliente(opcionSeleccionada);
             } else if (tipoUsuario.toUpperCase().contains("ADM")) {
                 opcionSeleccionada = this.mensajes.mostrarJOptioneInputOpciones("MENU ADMINISTRADOR",
                         this.opcionesMenuAdmin, 0);
@@ -179,16 +181,50 @@ public class MenuSistema {
     public void generarAccionesCliente(int opcionSeleecinada) {
         switch (opcionSeleecinada) {
             case 0:
-                
+                this.mostrarMenuComprarEntradas();
                 break;
             case 1:
-                
-
+                this.mensajes.mostrarJOptioneMessage(Usuario.reportes.generarReporteEventos(this.listas).toString());
                 break;
+            case 2:
+                this.mostrarMenuAsistirEvento();
             default:
                 this.mensajes.mostrarJOptioneMessage("Volviendo al menú anterior");
                 break;
         }
+    }
+
+    public void mostrarMenuAsistirEvento() {
+        int intentos = 0;
+        int opcionSeleccionada = this.mensajes.mostrarJOptioneInputOpciones("Eventos Disponibles", this.listas.devolverEventosDisponibles(), 0);
+        Cliente clienteActual = listas.devolverClienteActual(this.usuarioActual);
+        
+        ArrayList<Entrada> listaEntradas = listas.getListaEntradas();
+        
+        while(intentos <= 3) {
+            String entradaIngresada = this.mensajes.mostrarJOptioneInput("Ingrese el codigo de la entrada");
+            Boolean asistirEvento = clienteActual.asistirEvento(entradaIngresada, listaEntradas);
+            if (asistirEvento) {
+                this.mensajes.mostrarJOptioneMessage("DISFUTRE DE SU EVENTO");
+            } else {
+                this.mensajes.mostrarJOptioneMessage("Entrada Incorrecta o entrada ya usada \n intente de nuevo");
+                intentos++;
+            }
+        }
+        if(intentos > 3) {
+            this.mensajes.mostrarJOptioneMessage("Limite de intentos alcanzados volviendo al menu anterior");
+        }
+       
+    }
+
+    public void mostrarMenuComprarEntradas() {
+        int opcionSeleccionada = this.mensajes.mostrarJOptioneInputOpciones("Eventos Disponibles", this.listas.devolverEventosDisponibles(), 0);
+        Evento eventoSeleccionado = listas.getListaEvento().get(opcionSeleccionada);
+        Cliente clienteActual = listas.devolverClienteActual(this.usuarioActual);
+        Entrada entradaComprada = clienteActual.comprarEntrada();
+        this.mensajes.mostrarJOptioneMessage(clienteActual.mostrarDatosEntrada(entradaComprada, eventoSeleccionado).toString());
+        
+
     }
     public void generarAccionesAdmin(int opcionSelecconada) {
         switch (opcionSelecconada) {

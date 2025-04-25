@@ -5,36 +5,21 @@ import java.util.ArrayList;
 
 
 public class ListasSistemaEvento {
-public static void main(String[] args) {
-    ListasSistemaEvento listas = new ListasSistemaEvento();
-    MostrarMensajes mensajes = new MostrarMensajes();
-    ControlCreaciones control = new ControlCreaciones();
-    ValidacionUsuario validacionUsuario = new ValidacionUsuario(listas, mensajes,control);
-    listas.devolverAdminActual("12345678");
-
-    ArrayList<Usuario> listaUnificada = new ArrayList<>();
-    listaUnificada = listas.devolverListasUsuariosUnificada();
-    System.out.println(listaUnificada.size());;
-    for (int i = 0; i < listaUnificada.size();i++ ) {
-        Usuario elemento = listaUnificada.get(i);
-        System.out.println(elemento.getNombre());;
-        System.out.println("--------------------");
-    }
-
-}
 
     //Atributops
     private ArrayList<Cliente> listaUsuarios;
     private ArrayList<Administrador> listaAdministradores;
     private ArrayList<Evento> listaEventos;
-
+    private ArrayList<Entrada> listaEntradas;
     //Constructor
     public ListasSistemaEvento() {
         listaUsuarios = new ArrayList<>();
         listaAdministradores = new ArrayList<>();
         listaEventos = new ArrayList<>();
+        listaEntradas = new ArrayList<>();
         Administrador adminDefault = new Administrador("admin Default", "12345678", "admindefault@gmail.com");
         this.agregarAdministradorLista(adminDefault);
+
     }
     
     //Metodos
@@ -51,6 +36,10 @@ public static void main(String[] args) {
     //agrega une vento a lista
     public void agregarEventoLista(Evento evento) {
         listaEventos.add(evento);
+    }
+
+    public void agregarEntradaLista(Entrada entrada) {
+        listaEntradas.add(entrada);
     }
 
     //Metodo para devolvernos las identificaciones de los usuarios
@@ -111,6 +100,16 @@ public static void main(String[] args) {
         return listaEventosDisponibles;
     }
 
+    public Evento buscarEventoPorNombre(String nombreEvento) {
+        for (int i = 0; i < listaEventos.size(); i++) {
+            Evento evento = listaEventos.get(i);
+            if(evento.getNombreEvento().equals(nombreEvento) ) {
+                return evento;
+            }
+        }
+        return null;
+    }
+
     //Getters y setters
     public ArrayList<Evento> getListaEvento() {
         return this.listaEventos;
@@ -118,6 +117,10 @@ public static void main(String[] args) {
 
     public ArrayList<Cliente> getListaUsuario() {
         return this.listaUsuarios;
+    }
+
+    public ArrayList<Entrada> getListaEntradas() {
+        return this.listaEntradas;
     }
     
 
